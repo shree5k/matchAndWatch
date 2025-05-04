@@ -1,4 +1,4 @@
-const BACKEND_URL = 'https://your-movie-swiper-backend.onrender.com';
+const BACKEND_URL = 'https://matchandwatch-bjvh.onrender.com';
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 
 document.addEventListener('DOMContentLoaded', (event) => {
