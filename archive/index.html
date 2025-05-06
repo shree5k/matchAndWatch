@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Match & Watch</title>
-    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <link rel="stylesheet" href="style.css">
+    <!-- Socket.IO Client -->
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <!-- Google Fonts for the new UI -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
@@ -17,26 +18,36 @@
         <h1 class="sr-only">Match & Watch</h1>
     </div>
 
+    <!-- Connection Status Area (Keep as is) -->
     <div id="connection-status" class="connection-status-container">
         <p id="connection-message">Connecting to server...</p>
         <div class="spinner" id="connection-spinner"></div>
         <button id="retry-connection-btn" class="retry-button" style="display: none;">Retry Connection</button>
     </div>
 
+    <!-- Room Join/Create UI (Updated Structure and Classes) -->
     <div id="room-ui" class="modal" style="display: none;">
+        <!-- Username Input -->
         <div class="field-wrapper">
              <input autocomplete="off" name="username" class="field" maxlength="20" placeholder="Your name (optional)" type="text" id="username">
+             <!-- No button needed directly tied to username -->
         </div>
+
+         <!-- Create Room Button -->
         <button id="createRoomBtn" class="modal-button">
+             <!-- Optional SVG Icon (Example - replace if desired) -->
              <svg width="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 7.33333H8.66667V2H7.33333V7.33333H2V8.66667H7.33333V14H8.66667V8.66667H14V7.33333Z" fill="currentColor"/></svg>
              Create Room
         </button>
 
-        <hr class="separator">
+         <hr class="separator"> <!-- Optional Separator -->
 
-        <div class="field-wrapper input-with-button">
+         <!-- Join Room Section -->
+         <div class="field-wrapper input-with-button">
              <input autocomplete="off" name="roomcode" class="field" maxlength="4" placeholder="Enter Room Code" type="text" id="roomCodeInput" required="">
+             <!-- We use a separate button below, not the inline 'sign' style -->
              <button id="copyCodeBtn" class="copy-button" aria-label="Copy Room Code" title="Copy Code" style="display: none;">
+                <!-- Simple SVG for Copy Icon -->
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -44,11 +55,12 @@
             </button>
          </div>
          <button id="joinRoomBtn" class="modal-button">
+             <!-- Optional SVG Icon (Example) -->
              <svg width="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.66667 11.0573L7.99933 11.7247L2.27533 6L7.99933 0.275998L8.66667 0.943331L3.61133 6L8.66667 11.0573ZM7.33333 6.66667H14V5.33333H7.33333V6.66667Z" fill="currentColor"/></svg>
              Join Room
          </button>
 
-         <p id="room-message" class="modal-message"></p>
+         <p id="room-message" class="modal-message"></p> <!-- Message area -->
     </div>
     <div id="game-area" style="display: none;">
         <div class="card-container">
@@ -62,22 +74,17 @@
     </div>
 
     <div class="matches-section" style="display: none;">
-        <p id="latest-match-display" class="latest-match"></p>
-        <div id="match-counter-container" title="No matches yet">
+        <!-- Display area for the *latest* match -->
+        <p id="latest-match-display" class="latest-match"></p> <!-- Initially empty -->
+
+        <!-- Counter and Tooltip Trigger -->
+        <div id="match-counter-container" title="No matches yet"> <!-- Tooltip set on this div -->
             Matches: <span id="match-count">0</span>
         </div>
     </div>
-
-    <div id="game-over-results" class="game-over-container" style="display: none;">
-        <h2 id="game-over-heading">Popcorn ready?, You got </h2>
-        <div id="final-matches-container" class="final-matches">
-            <div class="matches-wrapper">
-            </div>
-        </div>
-        <button id="play-again-btn" class="modal-button">Play Again?</button>
+    <div id="status-banner" class="status-banner">
+        <!-- Content will be set by JavaScript -->
     </div>
-    
-    <div id="status-banner" class="status-banner"></div>
     <script type="module" src="js/main.js"></script>
 </body>
 </html>
