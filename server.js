@@ -25,10 +25,11 @@ if (!TMDB_API_KEY || TMDB_API_KEY.length < 10) {
 // --- CORS Setup ---
 // Make sure these origins are correct for your deployed frontend AND local testing
 const allowedOrigins = [
-    'http://localhost:5500', // Common local dev port
+    'http://localhost:5500',
     'http://127.0.0.1:5500',
-    'https://shree5k.github.io' // CHANGE THIS to your actual deployed frontend URL
-    // Add any other origins if needed
+    'https://shree5k.github.io',
+    'https://matchand.watch',
+    'https://www.matchand.watch'
 ];
 
 const io = new Server(server, {
