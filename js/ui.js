@@ -14,7 +14,15 @@ const createRoomBtn = document.getElementById('createRoomBtn');
 const roomCodeInput = document.getElementById('roomCodeInput');
 const joinRoomBtn = document.getElementById('joinRoomBtn');
 const roomMessage = document.getElementById('room-message');
+const inviteMessage = document.getElementById('invite-message');
+const roomTabs = document.getElementById('room-tabs');
+const roomTabList = document.getElementById('room-tab-list');
+const tabCreate = document.getElementById('tab-create');
+const tabJoin = document.getElementById('tab-join');
+const panelCreate = document.getElementById('panel-create');
+const panelJoin = document.getElementById('panel-join');
 const copyCodeBtn = document.getElementById('copyCodeBtn');
+const roomCodeField = roomCodeInput?.closest('.field-wrapper');
 const statusBanner = document.getElementById('status-banner');
 const gameOverContainer = document.getElementById('game-over-results');
 
@@ -53,6 +61,18 @@ export function displayRoomMessage(message, isError = false) {
     if (!isError && message.includes('Room Code:')) {
          roomMessage.className = 'modal-message success';
     }
+}
+
+export function showInviteMessage(message) {
+    if (!inviteMessage) return;
+    inviteMessage.textContent = message;
+    inviteMessage.style.display = 'block';
+}
+
+export function hideInviteMessage() {
+    if (!inviteMessage) return;
+    inviteMessage.textContent = '';
+    inviteMessage.style.display = 'none';
 }
 
 export function updateStatusBanner(message, type = 'info', autoHideDelay = null) {
@@ -119,6 +139,11 @@ export function showRoom() {
     }
     if (copyCodeBtn) copyCodeBtn.style.display = 'none';
     if (joinRoomBtn) joinRoomBtn.title = '';
+    if (roomTabs) roomTabs.classList.remove('invite-mode', 'host-waiting-mode');
+    setInviteJoinMode(false);
+    setHostWaitingMode(false);
+    setRoomTab('create');
+    hideInviteMessage();
     displayRoomMessage('');
     enableRoomButtons();
     disableGameButtons();
@@ -160,9 +185,44 @@ export function showGameLoadingIndicator(text = 'Loading...') {
     }
 }
 
-// --- Getters ---
+// --- Getters & Setters ---
 export function getUsernameValue() { return usernameInput?.value.trim() || `Player_${Math.random().toString(36).substring(2, 6)}`; }
+export function getUsernameInputValue() { return usernameInput?.value.trim() || ''; }
 export function getRoomCodeValue() { return roomCodeInput?.value.trim().toUpperCase() || ''; }
+export function setRoomCodeValue(code) {
+    if (roomCodeInput) roomCodeInput.value = code;
+}
+export function focusUsername() {
+    usernameInput?.focus();
+}
+
+export function setRoomTab(tab) {
+    const isCreate = tab === 'create';
+    if (tabCreate) {
+        tabCreate.classList.toggle('active', isCreate);
+        tabCreate.setAttribute('aria-selected', isCreate);
+    }
+    if (tabJoin) {
+        tabJoin.classList.toggle('active', !isCreate);
+        tabJoin.setAttribute('aria-selected', !isCreate);
+    }
+    if (panelCreate) panelCreate.hidden = !isCreate;
+    if (panelJoin) panelJoin.hidden = isCreate;
+}
+
+export function setInviteJoinMode(enabled) {
+    if (roomTabs) roomTabs.classList.toggle('invite-mode', enabled);
+    if (enabled) {
+        if (copyCodeBtn) copyCodeBtn.style.display = 'none';
+        setRoomTab('join');
+    }
+}
+
+export function setHostWaitingMode(enabled) {
+    if (roomTabs) roomTabs.classList.toggle('host-waiting-mode', enabled);
+    if (enabled) setRoomTab('join');
+}
+
 export function getCardContainer() { return cardContainer; }
 
 // --- Button State ---
@@ -173,11 +233,14 @@ export function enableRoomButtons() { if(createRoomBtn) createRoomBtn.disabled =
 
 // --- Specific Room UI Updates ---
 export function updateRoomCreatedUI(roomCode) {
-    displayRoomMessage(`Room Code: ${roomCode} - Share this code!`);
-    if(roomCodeInput) { roomCodeInput.value = roomCode; roomCodeInput.readOnly = true; }
-    if(copyCodeBtn) copyCodeBtn.style.display = 'flex';
+    displayRoomMessage(`Room Code: ${roomCode} : share the invite link!`);
+    if (roomCodeInput) {
+        roomCodeInput.value = roomCode;
+        roomCodeInput.readOnly = true;
+    }
+    if (copyCodeBtn) copyCodeBtn.style.display = 'flex';
+    setHostWaitingMode(true);
     disableRoomButtons();
-    if(joinRoomBtn) joinRoomBtn.title = 'Waiting for opponent...';
 }
 
 export function updateJoinedRoomUI(roomCode) {
@@ -311,6 +374,10 @@ export function updateBackgroundGlowUI(glowHue, glowOpacity) {
 
 // --- Setup for UI Listeners (Called by main.js) ---
 export function setupRetryListener(handler) { if(retryConnectionBtn) retryConnectionBtn.addEventListener('click', handler); }
+export function setupRoomTabListeners() {
+    tabCreate?.addEventListener('click', () => setRoomTab('create'));
+    tabJoin?.addEventListener('click', () => setRoomTab('join'));
+}
 export function setupCreateRoomListener(handler) { if(createRoomBtn) createRoomBtn.addEventListener('click', handler); }
 export function setupJoinRoomListener(handler) { if(joinRoomBtn) joinRoomBtn.addEventListener('click', handler); }
 export function setupCopyCodeListener(handler) { if(copyCodeBtn) copyCodeBtn.addEventListener('click', handler); }

@@ -371,14 +371,41 @@ function onCopy() {
         return;
     }
 
-    navigator.clipboard.writeText(codeToCopy).then(() => {
-        console.log(`Room code copied to clipboard: ${codeToCopy}`);
+    const url = new URL(window.location.href);
+    url.searchParams.set('room', codeToCopy);
+    const hostName = ui.getUsernameInputValue();
+    if (hostName) url.searchParams.set('host', hostName);
+    const inviteUrl = url.toString();
+
+    navigator.clipboard.writeText(inviteUrl).then(() => {
+        console.log(`Invite link copied to clipboard: ${inviteUrl}`);
         ui.showCopyFeedback();
-        ui.updateStatusBanner(`Copied Room Code: ${codeToCopy}!`, 'success', 2000);
+        ui.updateStatusBanner('Invite link copied!', 'success', 2000);
     }).catch(err => {
-        console.error('Failed to copy room code:', err);
-        ui.updateStatusBanner('Failed to copy code!', 'error', 3000);
+        console.error('Failed to copy invite link:', err);
+        ui.updateStatusBanner('Failed to copy invite link!', 'error', 3000);
     });
+}
+
+export function applyRoomFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const roomParam = params.get('room');
+    if (!roomParam) return;
+
+    const roomCode = roomParam.trim().toUpperCase();
+    if (roomCode.length !== 4) return;
+
+    const hostParam = params.get('host')?.trim();
+    const inviteText = hostParam
+        ? `${hostParam} invites you to play!\nEnter your name and join.`
+        : 'You\'ve been invited!\nEnter your name and join.';
+
+    ui.setRoomCodeValue(roomCode);
+    history.replaceState(null, '', window.location.pathname);
+    ui.setInviteJoinMode(true);
+    ui.showInviteMessage(inviteText);
+    ui.displayRoomMessage('');
+    ui.focusUsername();
 }
 
 function onRetryConnection() {
@@ -444,6 +471,7 @@ function initializeApp() {
     console.log("Initializing application...");
 
     ui.setupRetryListener(onRetryConnection);
+    ui.setupRoomTabListeners();
     ui.setupCreateRoomListener(onCreateRoom);
     ui.setupJoinRoomListener(onJoinRoom);
     ui.setupCopyCodeListener(onCopy);

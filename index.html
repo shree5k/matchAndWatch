@@ -33,29 +33,41 @@
     </div>
 
     <div id="room-ui" class="modal" style="display: none;">
-        <div class="field-wrapper">
-             <input autocomplete="off" name="username" class="field" maxlength="20" placeholder="Your name (optional)" type="text" id="username">
+        <p id="invite-message" class="invite-message" style="display: none;"></p>
+
+        <div id="room-tabs" class="room-tabs">
+            <div id="room-tab-list" class="room-tab-list" role="tablist" aria-label="Room options">
+                <button type="button" id="tab-create" class="room-tab active" role="tab" aria-selected="true" aria-controls="panel-create">Create Room</button>
+                <button type="button" id="tab-join" class="room-tab" role="tab" aria-selected="false" aria-controls="panel-join">Join Room</button>
+            </div>
+
+            <div class="field-wrapper">
+                <input autocomplete="off" name="username" class="field" maxlength="20" placeholder="Your name (optional)" type="text" id="username">
+            </div>
+
+            <div id="panel-create" class="room-tab-panel" role="tabpanel" aria-labelledby="tab-create">
+                <button id="createRoomBtn" class="modal-button">
+                    Create Room
+                    <svg width="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 7.33333H8.66667V2H7.33333V7.33333H2V8.66667H7.33333V14H8.66667V8.66667H14V7.33333Z" fill="currentColor"/></svg>
+                </button>
+            </div>
+
+            <div id="panel-join" class="room-tab-panel" role="tabpanel" aria-labelledby="tab-join" hidden>
+                <div class="field-wrapper input-with-button room-code-field">
+                    <input autocomplete="off" name="roomcode" class="field" maxlength="4" placeholder="Enter Room Code" type="text" id="roomCodeInput" required="">
+                    <button id="copyCodeBtn" class="copy-button" aria-label="Copy Invite Link" title="Copy Invite Link" style="display: none;">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+                <button id="joinRoomBtn" class="modal-button">
+                    Join Room
+                    <svg width="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.66667 11.0573L7.99933 11.7247L2.27533 6L7.99933 0.275998L8.66667 0.943331L3.61133 6L8.66667 11.0573ZM7.33333 6.66667H14V5.33333H7.33333V6.66667Z" fill="currentColor"/></svg>
+                </button>
+            </div>
         </div>
-        <button id="createRoomBtn" class="modal-button">
-             <svg width="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 7.33333H8.66667V2H7.33333V7.33333H2V8.66667H7.33333V14H8.66667V8.66667H14V7.33333Z" fill="currentColor"/></svg>
-             Create Room
-        </button>
-
-        <hr class="separator">
-
-        <div class="field-wrapper input-with-button">
-             <input autocomplete="off" name="roomcode" class="field" maxlength="4" placeholder="Enter Room Code" type="text" id="roomCodeInput" required="">
-             <button id="copyCodeBtn" class="copy-button" aria-label="Copy Room Code" title="Copy Code" style="display: none;">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                </svg>
-            </button>
-         </div>
-         <button id="joinRoomBtn" class="modal-button">
-             <svg width="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.66667 11.0573L7.99933 11.7247L2.27533 6L7.99933 0.275998L8.66667 0.943331L3.61133 6L8.66667 11.0573ZM7.33333 6.66667H14V5.33333H7.33333V6.66667Z" fill="currentColor"/></svg>
-             Join Room
-         </button>
 
          <p id="room-message" class="modal-message"></p>
     </div>

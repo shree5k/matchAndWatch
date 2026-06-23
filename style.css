@@ -60,7 +60,7 @@ h1 {
     gap: 18px;
     width: 360px;
     max-width: 90%;
-    padding: 32px;
+    padding: 20px;
     border-radius: 20px;
     overflow: hidden;
     background: linear-gradient(180deg, rgb(68 68 68 / 50%) 0%, rgba(255, 255, 255, 0.2) 100%);
@@ -126,7 +126,7 @@ h1 {
     gap: 8px;
     align-items: center;
     justify-content: center;
-    height: 46px;
+    height: 72px;
     border-radius: 12px;
     padding: 0 18px 2px 18px;
     background: rgba(0,0,0,0.5);
@@ -134,11 +134,17 @@ h1 {
     border: 1px solid rgba(255, 255, 255, 0.1);
     cursor: pointer;
     transition: 0.2s ease background-color, 0.2s ease border-color, 0.2s transform;
+    font-weight: 700;
   }
   .modal-button svg {
       width: 12px;
       height: auto;
       fill: currentColor;
+      flex-shrink: 0;
+  }
+
+  #joinRoomBtn svg {
+      transform: scaleX(-1);
   }
   .modal-button:hover {
     background: rgba(0,0,0,0.7);
@@ -175,6 +181,84 @@ h1 {
   }
   .modal-message.success {
       color: var(--action-color-like);
+  }
+
+  .invite-message {
+      margin: 0 0 12px;
+      font-weight: 500;
+      text-align: center;
+      font-size: 0.95em;
+      color: #eee;
+      line-height: 1.4;
+      white-space: pre-line;
+  }
+
+  .room-tabs {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+  }
+
+  .room-tab-list {
+      display: flex;
+      gap: 4px;
+      padding: 4px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .room-tab {
+      flex: 1;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 10px 12px 14px;
+      border: none;
+      border-radius: 9px;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.6);
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .room-tab:hover {
+      color: rgba(255, 255, 255, 0.85);
+  }
+
+  .room-tab.active {
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+  }
+
+  .room-tab-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+  }
+
+  .room-tab-panel[hidden] {
+      display: none;
+  }
+
+  .room-tabs.invite-mode .room-tab-list,
+  .room-tabs.host-waiting-mode .room-tab-list {
+      display: none;
+  }
+
+  .room-tabs.invite-mode #panel-create,
+  .room-tabs.host-waiting-mode #panel-create {
+      display: none;
+  }
+
+  .room-tabs.invite-mode .room-code-field {
+      display: none;
+  }
+
+  .room-tabs.host-waiting-mode #joinRoomBtn {
+      display: none;
   }
 .card-container {
     position: relative;

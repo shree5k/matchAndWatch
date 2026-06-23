@@ -10,7 +10,8 @@ import {
     resetRoomState,
     addMatch,
     resetMatchState,
-    renderInitialDeck // Import rendering function from main
+    renderInitialDeck, // Import rendering function from main
+    applyRoomFromUrl
 } from './main.js';
 
 function setupSocketListeners() {
@@ -48,6 +49,7 @@ function setupSocketListeners() {
       console.info("Fresh connection or game not active. Showing Room UI.");
       resetRoomState(); // Ensure state reset.
       ui.showRoom(); // Show room UI.
+      applyRoomFromUrl();
       ui.updateStatusBanner("You are all set!", 'success', 3000);
     }
   });
