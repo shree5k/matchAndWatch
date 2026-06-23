@@ -28,8 +28,7 @@ const allowedOrigins = [
     'http://localhost:5500',
     'http://127.0.0.1:5500',
     'https://shree5k.github.io',
-    'https://matchand.watch',
-    'https://www.matchand.watch'
+    'https://shreeramk.com'
 ];
 
 const io = new Server(server, {
